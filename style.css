@@ -7,9 +7,10 @@ html body {
 }
 
 #app{
-    background-color: rgba(92, 93, 109, 0.342);
+    background-color: rgba(92, 93, 109, 0.51);
     height: 100%;
     background-size: cover;
+    position: absolute;
 } 
 
 .center {
