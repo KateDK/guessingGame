@@ -29,8 +29,6 @@ function shuffle(array) {
       array[m] = array[i];
       array[i] = t;
     }
-
-
   
     return array;
   }
@@ -64,6 +62,10 @@ Game.prototype.playersGuessSubmission = function(num){
         throw "That is an invalid guess.";
     }else{
         this.playersGuess = num;
+        console.log(this.pastGuesses);
+        $('#guess-list li:nth-child('+ (this.pastGuesses.length -1)+')').text(num);
+        // var counter = '.guess'+this.pastGuesses.length-1;
+        // $('#guess-list' + counter + $('.text(num)'));
         return this.checkGuess();
     }
 }
@@ -76,6 +78,8 @@ Game.prototype.checkGuess = function(){
     }else{
         this.pastGuesses.push(this.playersGuess);
         if(this.pastGuesses.length >= 5){
+            $('#hint, #submit').prop("disabled",true);
+            $('#subtitle').text("Press the Reset button to play again!")
             return "You Lose.";
         }if(this.difference() < 10){
             return "You're burning up!";
@@ -94,3 +98,26 @@ Game.prototype.provideHint = function(){
     return shuffle(hintArr);
 }
 
+// ---------JQUERY-------------
+
+function makeGuess(gameplay){
+    var input = Number($('#player-input').val());
+        gameplay.playersGuess = input;
+        $('#title').text(gameplay.playersGuessSubmission(Number(gameplay.playersGuess)));
+
+}
+
+$(document).ready(function(){
+
+    var gameplay = newGame();
+    $('#submit').click(function(){
+        makeGuess(gameplay);
+    });
+
+    $( "#player-input").keypress(function(event) {
+        //checking if the button clicked is enter
+        if (event.which == 13 ) {
+           makeGuess(gameplay);
+        };
+    })
+});
