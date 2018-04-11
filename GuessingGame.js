@@ -8,7 +8,7 @@ V-generateWinningNumber
 newGame
 V-shuffle */
 
-
+var gameplay = newGame();
 //generate a number from 1-100
 function generateWinningNumber() {
     var val = Math.floor(Math.random() * 100)+1;
@@ -32,6 +32,14 @@ function shuffle(array) {
   
     return array;
   }
+
+  function whatToGuess(){
+    if(gameplay.isLower()){
+        $('#subtitle').text("Guess higher!");
+    }else{
+        $('#subtitle').text("Guess lower!");
+    }
+}
 
 //end of helper functions
 
@@ -63,7 +71,7 @@ Game.prototype.playersGuessSubmission = function(num){
     }else{
         this.playersGuess = num;
         console.log(this.pastGuesses);
-        $('#guess-list li:nth-child('+ (this.pastGuesses.length -1)+')').text(num);
+        $('#guess-list li:nth-child('+ (this.pastGuesses.length +1)+')').text(num);
         // var counter = '.guess'+this.pastGuesses.length-1;
         // $('#guess-list' + counter + $('.text(num)'));
         return this.checkGuess();
@@ -72,6 +80,8 @@ Game.prototype.playersGuessSubmission = function(num){
 
 Game.prototype.checkGuess = function(){
     if(this.playersGuess === this.winningNumber){
+        $('#hint, #submit').prop("disabled",true);
+        $('#subtitle').text("Press the Reset button to play again!");
         return "You Win!";
     }else if( this.pastGuesses.indexOf(this.playersGuess) >= 0){
         return "You have already guessed that number.";
@@ -79,15 +89,19 @@ Game.prototype.checkGuess = function(){
         this.pastGuesses.push(this.playersGuess);
         if(this.pastGuesses.length >= 5){
             $('#hint, #submit').prop("disabled",true);
-            $('#subtitle').text("Press the Reset button to play again!")
+            $('#subtitle').text("Press the Reset button to play again!");
             return "You Lose.";
         }if(this.difference() < 10){
+            whatToGuess();
             return "You're burning up!";
         }else if(this.difference() < 25){
+            whatToGuess();
             return "You're lukewarm.";
         }else if(this.difference() < 50){
+            whatToGuess();
             return "You're a bit chilly."
         }else{
+            whatToGuess();
             return "You're ice cold!";
         }
     }
@@ -109,7 +123,6 @@ function makeGuess(gameplay){
 
 $(document).ready(function(){
 
-    var gameplay = newGame();
     $('#submit').click(function(){
         makeGuess(gameplay);
     });
