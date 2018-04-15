@@ -1,5 +1,3 @@
-var gameplay = newGame();
-
 //------------helper functions---------------
 
 //generate a number from 1-100
@@ -23,17 +21,7 @@ function shuffle(array) {
       array[m] = array[i];
       array[i] = t;
     }
-  
     return array;
-  }
-
-  function whatToGuess() {
-    if(gameplay.isLower()) {
-        $('#subtitle').text("Guess higher!");
-
-    }else{
-        $('#subtitle').text("Guess lower!");
-    }
 }
 
 //---------end of helper functions----------
@@ -60,49 +48,58 @@ Game.prototype.isLower = function() {
 }
 
 Game.prototype.playersGuessSubmission = function(num) {
-    if (num < 1 || num > 100 || typeof num !== 'number'){
-        //throw "That is an invalid guess.";
+    if (num < 1 || num > 100 || Number.isNaN(num)){
+        $("#subtitle").text("Guess a number between 1-100!");
         return "That is an invalid guess.";
 
     }else{
         this.playersGuess = num;
-        console.log(this.pastGuesses);
-        $('#guess-list li:nth-child('+ (this.pastGuesses.length +1)+')').text(num);
         return this.checkGuess();
     }
+}
+Game.prototype.gameOver = function(){
+    $('#hint, #submit, #player-input').prop("disabled",true);
+    $('#subtitle').text("Press the Reset button to play again!");
+}
+Game.prototype.reset = function(){
+    $("#guess-list li").text("-");
+    $('#hint, #submit, #player-input').prop("disabled",false);
+    $("#title").text("Guessing Game!");
+    $("#subtitle").text("Take the challenge! Guess a number between 1-100!");
 }
 
 Game.prototype.checkGuess = function() {
     if(this.playersGuess === this.winningNumber){
-        $('#hint, #submit').prop("disabled",true);
-        $('#subtitle').text("Press the Reset button to play again!");
+        this.gameOver();
+        $('#guess-list li:nth-child('+ (this.pastGuesses.length +1)+')').text(this.playersGuess);
         return "You Win!";
 
     }else if( this.pastGuesses.indexOf(this.playersGuess) >= 0) {
+        this.whatToGuess();
         return "You have already guessed that number.";
 
     }else{
+        $('#guess-list li:nth-child('+ (this.pastGuesses.length +1)+')').text(this.playersGuess);
         this.pastGuesses.push(this.playersGuess);
 
         if(this.pastGuesses.length >= 5) {
-            $('#hint, #submit').prop("disabled",true);
-            $('#subtitle').text("Press the Reset button to play again!");
-            return "You Lose.";
+            this.gameOver();
+            return "You Lose. The secret number was: " + this.winningNumber;
 
         }if(this.difference() < 10) {
-            whatToGuess();
+            this.whatToGuess();
             return "You're burning up!";
 
         }else if(this.difference() < 25) {
-            whatToGuess();
+            this.whatToGuess();
             return "You're lukewarm.";
 
         }else if(this.difference() < 50) {
-            whatToGuess();
+            this.whatToGuess();
             return "You're a bit chilly.";
             
         }else{
-            whatToGuess();
+            this.whatToGuess();
             return "You're ice cold!";
         }
     }
@@ -113,32 +110,40 @@ Game.prototype.provideHint = function() {
     return shuffle(hintArr);
 }
 
+Game.prototype.whatToGuess = function() {
+    if(this.isLower()) {
+        $('#subtitle').text("Guess higher!");
+
+    }else{
+        $('#subtitle').text("Guess lower!");
+    }
+}
+
 // -----------------JQUERY---------------------
 
 function makeGuess(gameplay) {
     var input = Number($('#player-input').val());
-        gameplay.playersGuess = input;
-        $('#title').text(gameplay.playersGuessSubmission(Number(gameplay.playersGuess)));
-
+    $('#title').text(gameplay.playersGuessSubmission(input));
+    $('#player-input').val("");
 }
 
 $(document).ready(function() {
-
+    var gameplay = newGame();
+    
     $('#submit').click(function() {
         makeGuess(gameplay);
-        $('#player-input').val("");
     });
 
     $( "#player-input").keypress(function(event) {
         //checking if the button clicked is enter
         if (event.which == 13 ) {
            makeGuess(gameplay);
-           $(this).val("");
         };
     });
 
     $('#reset').click(function() {
-        location.reload();
+        gameplay = newGame();
+        gameplay.reset();
     });
 
     $('#hint').click(function() {

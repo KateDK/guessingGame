@@ -29,7 +29,7 @@ img {
 }
 
 #headers {
-    padding-top: 30px;
+    margin: 50px auto;
     color: white;
       
 }
@@ -44,15 +44,12 @@ img {
 
 #input-parent {
     width: 160px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     position: relative;
-    padding-bottom: 25px;
-    padding-top: 25px;
   }
 
 #player-input {
-    border: 1ps solid black;
+    border: 1px solid black;
     border-radius: 50%;
     height: 160px;
     width: 160px;
@@ -75,23 +72,28 @@ input:focus {
 
 .guess{
     display: inline;
-    margin-right: 1.5%;
+    margin:auto 0.75%;
     border: 2px solid black;
     border-radius: 10%;
     font-size: 45px;
     padding: 0 25px;
-    background-color: rgb(154, 151, 173)
+    background-color: rgb(154, 151, 173);
 }
 
 #guesses {
-    margin-top: 25px;
+    margin: 50px auto;
+
 }
 
 #signature {
     margin-top: 30px;
-    font-size: 8px;
+    font-size: 10px;
 }
 
 #GHlogo{
     padding-top: 10px;
+}
+.actionbutton {
+    width: 100px;
+    margin: auto 5px;
 }
