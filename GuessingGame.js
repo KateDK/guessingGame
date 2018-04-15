@@ -64,6 +64,7 @@ Game.prototype.gameOver = function(){
 Game.prototype.reset = function(){
     $("#guess-list li").text("-");
     $('#hint, #submit, #player-input').prop("disabled",false);
+    $("#player-input").val("");
     $("#title").text("Guessing Game!");
     $("#subtitle").text("Take the challenge! Guess a number between 1-100!");
 }
