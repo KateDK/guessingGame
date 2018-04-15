@@ -133,6 +133,7 @@ $(document).ready(function() {
     
     $('#submit').click(function() {
         makeGuess(gameplay);
+        $("#player-input").focus();
     });
 
     $( "#player-input").keypress(function(event) {
@@ -145,10 +146,12 @@ $(document).ready(function() {
     $('#reset').click(function() {
         gameplay = newGame();
         gameplay.reset();
+        $("#player-input").focus();
     });
 
     $('#hint').click(function() {
         $('#title').text('The secret number is one of those '+ gameplay.provideHint());
+        $("#player-input").focus();
     });
 
 });
