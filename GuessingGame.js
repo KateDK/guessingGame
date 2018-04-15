@@ -58,6 +58,7 @@ Game.prototype.playersGuessSubmission = function(num) {
     }
 }
 Game.prototype.gameOver = function(){
+    $("#reset").focus();
     $('#hint, #submit, #player-input').prop("disabled",true);
     $('#subtitle').text("Press the Reset button to play again!");
 }
