@@ -8,19 +8,19 @@ function generateWinningNumber() {
 
 //Fisher-Yates - https://bost.ocks.org/mike/shuffle/
 function shuffle(array) {
-  var m = array.length,
-    t,
+  var remaining = array.length,
+    temporary,
     i;
 
   // While there remain elements to shuffle…
-  while (m) {
+  while (remaining) {
     // Pick a remaining element…
-    i = Math.floor(Math.random() * m--);
+    i = Math.floor(Math.random() * remaining--);
 
     // And swap it with the current element.
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
+    temporary = array[remaining];
+    array[remaining] = array[i];
+    array[i] = temporary;
   }
   return array;
 }
