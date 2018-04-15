@@ -132,9 +132,12 @@ function makeGuess(gameplay) {
 $(document).ready(function() {
     var gameplay = newGame();
 
+    //check if browser is on mobile device, change input type
+    //check if mobile: https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device-in-jquery
+    //change input type: https://stackoverflow.com/questions/3541514/jquery-change-input-type
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
         $('#player-input').clone().attr('type','number').insertAfter('#player-input').prev().remove();
-       }
+    }
     
     $('#submit').click(function() {
         makeGuess(gameplay);
