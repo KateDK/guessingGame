@@ -23,7 +23,7 @@ ul {
 }
 
 img {
-    display: inline;
+    display: inline-block;
     width: 200px;
     /* height: 100px;*/
 }
