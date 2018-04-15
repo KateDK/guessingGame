@@ -57,12 +57,12 @@ Game.prototype.playersGuessSubmission = function(num) {
         return this.checkGuess();
     }
 }
-Game.prototype.gameOver = function(){
+Game.prototype.gameOver = function() {
     $("#reset").focus();
     $('#hint, #submit, #player-input').prop("disabled",true);
     $('#subtitle').text("Press the Reset button to play again!");
 }
-Game.prototype.reset = function(){
+Game.prototype.reset = function() {
     $("#guess-list li").text("-");
     $('#hint, #submit, #player-input').prop("disabled",false);
     $("#player-input").val("");
@@ -131,6 +131,10 @@ function makeGuess(gameplay) {
 
 $(document).ready(function() {
     var gameplay = newGame();
+
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        $('#player-input').clone().attr('type','number').insertAfter('#player-input').prev().remove();
+       }
     
     $('#submit').click(function() {
         makeGuess(gameplay);
