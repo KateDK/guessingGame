@@ -148,7 +148,7 @@ $(document).ready(function() {
         //checking if the button clicked is enter
         if (event.which == 13 ) {
            makeGuess(gameplay);
-        };
+        }
     });
 
     $('#reset').click(function() {
